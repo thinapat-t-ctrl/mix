@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Workshop 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+
+<div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">🛒 ระบบจัดการร้านค้า</h1>
+    <div id="display-area" class="space-y-2"></div>
+    <button onclick="runApp()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+        Run App
+    </button>
+</div>
+
+<script>
+const productsDB = [
+    { id: 1, name: "Mechanical Keyboard", price: 3500, category: "IT", type: "Import", discount: 10 },
+    { id: 2, name: "Air Fryer", price: 2755, category: "Kitchen", type: "Import", discount: 0 },
+    { id: 3, name: "Chef Knife", price: 1500, category: "Kitchen", type: "Thailand", discount: 10 },
+    { id: 4, name: "Bed Lamp", price: 450, category: "Bedroom", type: "Thailand", discount: 5 },
+    { id: 5, name: "Non-stick Pan", price: 1800, category: "Kitchen", type: "Import", discount: 10 },
+    { id: 6, name: "Duvet Cover", price: 2200, category: "Bedroom", type: "Thailand", discount: 5 },
+    { id: 7, name: "Digital Camera", price: 19900, category: "IT", type: "Import", discount: 5 }
+];
+
+const runApp = () => {
+    console.clear();
+    console.log("🚀 เริ่มต้นระบบจัดการสินค้า");
+
+    // 1. คำค้นหาจำลอง
+    const keyword = "";
+    console.log("🔍 คำค้นหาปัจจุบัน:", `"${keyword}"`);
+
+    // 2. แสดงจำนวนสินค้าทั้งหมด
+    console.log("📦 จำนวนสินค้าทั้งหมด:", productsDB.length, "รายการ");
+
+    // 3. แสดง Array
+    console.log("📚 Array สินค้า");
+    console.log(productsDB);
+
+    // 4. ฟังก์ชันคำนวณราคาหลังหักส่วนลด
+    const getDiscountPrice = (price, discount) => {
+        return price - (price * discount / 100);
+    };
+
+    // 5. แสดงสินค้า + log สินค้าลดราคา
+    const html = productsDB.map(p => {
+        const finalPrice = getDiscountPrice(p.price, p.discount);
+
+        if (p.discount > 0) {
+            console.log(
+                `🏷️ สินค้าลดราคา: ${p.name} (เหลือ ฿${finalPrice})`
+            );
+        }
+
+        return `
+            <div class="flex justify-between border p-2 rounded bg-cyan-50">
+                <div>
+                    <div class="font-bold">${p.name}</div>
+                    <div class="text-sm text-gray-500">
+                        ${p.category} | ${p.type} | Discount ${p.discount}%
+                    </div>
+                </div>
+                <div class="font-mono text-green-600">
+                    ฿${finalPrice.toLocaleString()}
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById("display-area").innerHTML = html.join("");
+};
+
+runApp();
+</script>
+
+</body>
+</html>
